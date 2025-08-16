@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgriFarm Hub – A central place for farm waste management!</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+    <link rel="icon" href="data:,">`
+    <style>
+        body {
+            background-color: #0d1b0d;
+            color: white;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background: linear-gradient(90deg, #006400, #32CD32);
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0, 255, 100, 0.4);
+        }
+        #siteTitle {
+            font-size: 2rem;
+            font-weight: bold;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+        }
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        nav ul li {
+            display: inline;
+            margin: 0 15px;
+        }
+        nav ul li a {
+            text-decoration: none;
+            font-size: 1.2rem;
+            color: white;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+        nav ul li a:hover {
+            color: #FFD700;
+        }
+        #darkModeToggle {
+            background-color: black;
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+        #darkModeToggle:hover {
+            background-color: #FFD700;
+            color: black;
+        }
+        .section {
+            padding: 50px;
+            text-align: center;
+            margin-top: 20px;
+        }
+        .section h2 {
+            color: #32CD32;
+            text-shadow: 1px 1px 5px rgba(50, 205, 50, 0.5);
+        }
+        #resultContainer {
+            background: rgba(0, 50, 0, 0.9);
+            padding: 30px;
+            border-radius: 15px;
+            margin: 50px auto;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 255, 100, 0.4);
+            width: 90%;
+            max-width: 900px;
+        }
+        button {
+            background-color: #006400;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        button:hover {
+            background-color: #32CD32;
+            color: black;
+        }
+    </style>
+    <style>
+        /* Chatbot Styles */
+        #chat-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            font-family: Arial, sans-serif;
+        }
+        #chat-box {
+            display: none;
+            width: 300px;
+            height: 350px;
+            background: #0d1b0d; /* Matches website theme */
+            color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 255, 100, 0.4);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        #chat-header {
+            background: #006400;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        #chat-header span {
+            cursor: pointer;
+            font-size: 1.2rem;
+        }
+        #chat-messages {
+            flex-grow: 1;
+            padding: 10px;
+            overflow-y: auto;
+            max-height: 250px;
+        }
+        #chat-input {
+            display: flex;
+            border-top: 1px solid #ddd;
+        }
+        #user-input {
+            flex-grow: 1;
+            padding: 8px;
+            border: none;
+            outline: none;
+            background: #0d1b0d;
+            color: white;
+        }
+        #send-btn {
+            background: #006400;
+            color: white;
+            padding: 8px 12px;
+            border: none;
+            cursor: pointer;
+        }
+        #send-btn:hover {
+            background: #32CD32;
+            color: black;
+        }
+        #chat-button {
+            background: #006400;
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <a href="sell.html">Sell Waste (For Farmers)</a>
+    <a href="buy.html">Buy Waste (For Customers)</a>
+
+    <div>
+        <h3></h3>
+        <form id="loginForm">
+            <label for="userType">Login as:</label>
+            <select id="userType">
+                <option value="farmer">Farmer</option>
+                <option value="customer">Customer</option>
+            </select>
+            <input type="text" id="username" placeholder="Enter Username" required>
+            <input type="password" id="password" placeholder="Enter Password" required>
+            <button type="submit">Login</button>
+        </form>
+    </div>
+    <header>
+        <h1 id="siteTitle">Farm Waste Management</h1>
+        <button id="darkModeToggle">🌙 Toggle Dark Mode</button>
+        <select id="languageSelect" onchange="changeLanguage()">
+            <option value="en">English 🇬🇧</option>
+            <option value="hi">हिंदी 🇮🇳</option>
+            <option value="pa">ਪੰਜਾਬੀ 🇮🇳</option>
+            <option value="mr">मराठी 🇮🇳</option>
+            <option value="bn">বাংলা 🇮🇳</option>
+            <option value="ta">தமிழ் 🇮🇳</option>
+            <option value="te">తెలుగు 🇮🇳</option>
+            <option value="gu">ગુજરાતી 🇮🇳</option>
+        </select>
+       
+        
+        
+        
+    </header>
+    <nav>
+        <ul>
+            <li><a href="#home">🏡 Home</a></li>
+            <li><a href="#track">📊 Track Waste</a></li>
+            <li><a href="#upload">📷 Upload Photos</a></li>
+            <li><a href="#education">📚 Resources</a></li>
+            <li><a href="#contact">📞 Contact</a></li>
+            <li><a href="login.html" id="loginLink">🔑 Login</a></li>
+            <li><button id="logoutBtn" onclick="logout()" style="display:none;">🚪 Logout</button></li>
+        </ul>
+    </nav>
+    <section id="home" class="section">
+        <h2 id="Welcome">Welcome to Farm Waste Management</h2>
+        <p>Helping farmers manage agricultural waste effectively.</p>
+    </section>
+    <section id="track" class="section">
+        <h2 id="waste track">Waste Tracking System</h2>
+    </section>
+    <div id="resultContainer">
+        <input type="file" id="imageUploader" accept="image/*" onchange="previewImage(event)">
+        <img id="inputImage" style="display: none; max-width: 250px; margin-top: 15px; border-radius: 10px;" />
+        <button onclick="predictImage()">Predict</button>
+        <h3 style="color: #FFD700; margin-top: 20px; font-size: 1.5rem;">Prediction result will appear here!</h3>
+        <p id="classificationResult" style="font-size: 1.5rem; font-weight: bold; color: white;"></p>
+        <h3 style="color: #FFD700; font-size: 1.3rem;"></h3>
+        <p id="disposalSuggestion" style="font-size: 1.2rem; color: white;"></p>
+        <p id="result"></p>
+    </div>
+    <section id="education" class="section">
+        <h2 id="education">Educational Resources</h2>
+        <p>Get information about agricultural waste management and sustainable farming for farmers.</p>
+    
+        <div class="video-container">
+            <h3>🌱 Start an Agricultural Waste Management Business</h3>
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/sof1VTmDyr8" frameborder="0" allowfullscreen></iframe>
+            <p>This video explains how agricultural waste can be converted into reusable products.</p>
+        </div>
+    
+        <div class="video-container">
+            <h3>♻️ Farm Waste Processing - Part 1</h3>
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/8WfJYaBWJ78" frameborder="0" allowfullscreen></iframe>
+            <p>This video demonstrates various techniques for processing agricultural waste.</p>
+        </div>
+    
+        <div class="video-container">
+            <h3>🔬 Technical Training: Agricultural Waste Management</h3>
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/1qmjbvcW8cU" frameborder="0" allowfullscreen></iframe>
+            <p>This video provides information on livestock waste storage and proper management.</p>
+        </div>
+    
+        <div class="video-container">
+            <h3>🌾 Farm Waste Management and Sustainable Agriculture</h3>
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/WFQjryTKV2o" frameborder="0" allowfullscreen></iframe>
+            <p>This video teaches farmers the correct methods of farm waste management.</p>
+        </div>
+    
+        <div class="video-container">
+            <h3>🌍 Solution to Organic Waste Problems</h3>
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/Aseu0PVSgec" frameborder="0" allowfullscreen></iframe>
+            <p>This video explains the proper utilization and disposal of organic waste.</p>
+        </div>
+    </section>
+    
+    <section id="contact" class="section">
+        <h2>Contact Us</h2>
+        <p>Email: support@farmwaste.com</p>
+    </section>
+    <!-- Add this in your index.html -->
+    <div id="chat-container">
+        <div id="chat-box">
+            <div id="chat-header">
+                Waste Disposal Chatbot 
+                <span onclick="closeChat()">✖</span>
+            </div>
+            <div id="chat-messages"></div>
+            <div id="chat-input">
+                <input type="text" id="user-input" placeholder="Ask about disposal..." onkeypress="handleKeyPress(event)">
+                <button id="send-btn" onclick="sendMessage()">Send</button>
+            </div>
+        </div>
+        <div id="chat-button" onclick="toggleChat()">💬</div>
+    </div>
+    
+    <script>
+        const disposalInfo = {
+            "plastic": "♻️ Recycle plastic waste at your nearest recycling center.",
+            "organic": "🌱 Organic waste can be composted to make natural fertilizer.",
+            "chemical": "⚠️ Chemical waste should be disposed of at a hazardous waste facility.",
+            "metal": "🔩 Metal waste can be melted and reused. Find a scrap yard.",
+            "glass": "🍾 Glass waste can be recycled into new glass products.",
+            "batteries": "🔋 Batteries contain harmful chemicals and should be disposed of at battery recycling points.",
+            "e-waste": "💻 Electronic waste should be recycled at an authorized e-waste collection center.",
+            "paper": "📄 Paper waste can be recycled or reused for packaging and crafts.",
+            "wood": "🪵 Wooden waste can be repurposed or used for making furniture."
+        };
+    
+        function toggleChat() {
+            let chatBox = document.getElementById("chat-box");
+            let chatMessages = document.getElementById("chat-messages");
+            
+            if (chatBox.style.display === "flex") {
+                chatBox.style.display = "none";
+            } else {
+                chatBox.style.display = "flex";
+                // Add a greeting message when the chatbot opens
+                if (chatMessages.innerHTML.trim() === "") {
+                    chatMessages.innerHTML += `<p><strong>Bot:</strong> Hi! 🌍 I'm here to help with farm waste disposal. Ask me about plastic, organic, metal, or other waste types.</p>`;
+                }
+            }
+        }
+    
+        function closeChat() {
+            document.getElementById("chat-box").style.display = "none";
+        }
+    
+        function sendMessage() {
+            let input = document.getElementById("user-input").value.toLowerCase().trim();
+            let chatMessages = document.getElementById("chat-messages");
+    
+            if (input === "") return;
+    
+            let response = disposalInfo[input] || "❌ Sorry, I don't have info on that yet. Try asking about 'plastic', 'organic', 'metal', or 'glass'.";
+            
+            chatMessages.innerHTML += `<p><strong>You:</strong> ${input}</p>`;
+    
+            setTimeout(() => {
+                chatMessages.innerHTML += `<p><strong>Bot:</strong> ${response}</p>`;
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }, 500); // Simulating bot typing delay
+            
+            document.getElementById("user-input").value = "";
+        }
+    
+        function handleKeyPress(event) {
+            if (event.key === "Enter") {
+                sendMessage();
+            }
+        }
+    </script>
+    <script>
+        function checkLogin() {
+            let loggedIn = localStorage.getItem("loggedIn");
+            let loginLink = document.getElementById("loginLink");
+            let logoutBtn = document.getElementById("logoutBtn");
+    
+            if (loggedIn === "true") {
+                loginLink.style.display = "none"; // Hide Login Link
+                logoutBtn.style.display = "block"; // Show Logout Button
+            }
+        }
+    
+        function logout() {
+            localStorage.removeItem("loggedIn");
+            window.location.href = "login.html"; // Redirect to Login
+        }
+    
+        checkLogin();
+    </script>
+    <script>
+        if (localStorage.getItem("loggedIn") !== "true") {
+            alert("Please log in first!");
+            window.location.href = "login.html"; // Redirect to Login
+        }
+    </script>
+     
+    
+    
+    <script>
+    
+        function previewImage(event) {
+            let reader = new FileReader();
+            reader.onload = function(){
+                let img = document.getElementById("inputImage");
+                img.src = reader.result;
+                img.style.display = "block";
+            };
+            reader.readAsDataURL(event.target.files[0]);
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/onnxruntime-web@latest/dist/ort.min.js"></script>
+    <script type="module" src="script.js"></script>
+</body>
+</html>

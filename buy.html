@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buy Farm Waste</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background: white;
+            padding: 20px;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+            width: 100%;
+        }
+
+        li {
+            background: #e3e3e3;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 5px;
+            text-align: left;
+            font-size: 16px;
+        }
+
+        .back-container {
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .back-btn {
+            text-decoration: none;
+            background: #007bff;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .back-btn:hover {
+            background: #0056b3;
+        }
+
+        .buy-btn {
+            display: inline-block;
+            background: #28a745;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            border: none;
+            margin-left: 10px;
+            transition: background 0.3s ease;
+        }
+
+        .buy-btn:hover {
+            background: #218838;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <select id="languageSelector">
+            <option value="en">English</option>
+            <option value="hi">हिन्दी</option>
+            <option value="fr">Français</option>
+        </select>
+
+        <h2 id="buyTitle">Available Farm Waste</h2>
+        <ul id="wasteList"></ul>
+    </div>
+
+    <script>
+        const translations = {
+            en: { buyTitle: "Available Farm Waste", buyBtn: "Buy" },
+            hi: { buyTitle: "उपलब्ध कृषि कचरा", buyBtn: "खरीदें" },
+            fr: { buyTitle: "Déchets agricoles disponibles", buyBtn: "Acheter" }
+        };
+
+        document.getElementById("languageSelector").addEventListener("change", function() {
+            let lang = this.value;
+            document.getElementById("buyTitle").innerText = translations[lang].buyTitle;
+            updateBuyButtons(lang);
+        });
+
+        function updateBuyButtons(lang) {
+            document.querySelectorAll(".buy-btn").forEach(btn => {
+                btn.innerText = translations[lang].buyBtn;
+            });
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            let wasteList = document.getElementById("wasteList");
+            let storedWaste = JSON.parse(localStorage.getItem("wasteItems")) || [];
+
+            if (storedWaste.length === 0) {
+                wasteList.innerHTML = "<li>No waste available.</li>";
+            } else {
+                storedWaste.forEach((waste, index) => {
+                    let listItem = document.createElement("li");
+                    listItem.innerHTML = `<strong>${waste.type}</strong> - ${waste.quantity} kg (📞 ${waste.contact}) 
+                        <button class="buy-btn" onclick="buyWaste(${index})">Buy</button>`;
+                    wasteList.appendChild(listItem);
+                });
+            }
+        });
+
+        function buyWaste(index) {
+            let storedWaste = JSON.parse(localStorage.getItem("wasteItems")) || [];
+            storedWaste.splice(index, 1);
+            localStorage.setItem("wasteItems", JSON.stringify(storedWaste));
+            location.reload();
+        }
+    </script>
+    <div class="container">
+        <h2>Available Farm Waste</h2>
+        <ul id="wasteList"></ul>
+    </div>
+
+    <div class="back-container">
+        <a href="index.html" class="back-btn">⬅ Go Back</a>
+    </div>
+
+    
+</body>
+</html>

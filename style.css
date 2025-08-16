@@ -1,0 +1,51 @@
+/* Enhanced Professional & Eco-friendly Look */
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    background: url('back.jpg') no-repeat center center fixed, #222;
+    background-size: cover;
+    background-attachment: fixed;
+    color: white;
+    text-align: center;
+}
+
+/* Header with Gradient & Overlay */
+header {
+    background: linear-gradient(45deg, rgba(0, 100, 0, 0.8), rgba(0, 128, 0, 0.8));
+    padding: 1.5rem;
+    font-size: 1.0rem;
+    font-weight: bold;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.5);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+/* Sections with Neon Glow */
+section {
+    background: rgba(0, 0, 0, 0.85);
+    border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(0, 255, 100, 0.4);
+    width: 80%;
+    max-width: 900px;
+    text-align: center;
+    margin: 30px auto;
+    padding: 30px;
+    color: #ddd;
+    backdrop-filter: blur(10px);
+    transition: transform 0.3s ease-in-out;
+}
+
+section:hover {
+    transform: scale(1.03);
+    box-shadow: 0 8px 25px rgba(0, 255, 100, 0.6);
+}
+.video-container {
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.video-container p {
+    font-size: 1rem;
+    color: white;
+}

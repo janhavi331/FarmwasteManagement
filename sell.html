@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sell Farm Waste</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background: white;
+            padding: 20px;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        input, button {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        button {
+            background: #28a745;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            border: none;
+            transition: background 0.3s ease;
+        }
+
+        button:hover {
+            background: #218838;
+        }
+
+        .back-container {
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .back-btn {
+            text-decoration: none;
+            background: #007bff;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .back-btn:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <select id="languageSelector">
+            <option value="en">English</option>
+            <option value="hi">हिन्दी</option>
+            <option value="mr">मराठी</option>
+            <option value="fr">Français</option>
+        </select>
+
+        <h2 id="sellTitle">Sell Your Farm Waste</h2>
+        <form id="wasteForm">
+            <input type="text" id="wasteName" placeholder="Waste Type (Plastic, Metal, etc.)" required>
+            <input type="number" id="wasteQuantity" placeholder="Quantity (kg)" required>
+            <input type="text" id="contact" placeholder="Your Contact Info" required>
+            <button type="submit" id="sellBtn">Sell Waste</button>
+        </form>
+    </div>
+
+    <script>
+        const translations = {
+            en: {
+                sellTitle: "Sell Your Farm Waste",
+                wasteName: "Waste Type (Plastic, Metal, etc.)",
+                wasteQuantity: "Quantity (kg)",
+                contact: "Your Contact Info",
+                sellBtn: "Sell Waste"
+            },
+            hi: {
+                sellTitle: "अपना कृषि कचरा बेचें",
+                wasteName: "कचरे का प्रकार (प्लास्टिक, धातु, आदि)",
+                wasteQuantity: "मात्रा (किलोग्राम)",
+                contact: "आपकी संपर्क जानकारी",
+                sellBtn: "कचरा बेचें"
+            },
+            mr: {
+                sellTitle: "तुमचा शेती कचरा विका",
+                wasteName: "कचऱ्याचा प्रकार (प्लास्टिक, धातू, इत्यादी)",
+                wasteQuantity: "प्रमाण (किलोग्रॅम)",
+                contact: "तुमचा संपर्क माहिती",
+                sellBtn: "कचरा विका"
+            },
+            fr: {
+                sellTitle: "Vendez vos déchets agricoles",
+                wasteName: "Type de déchet (Plastique, Métal, etc.)",
+                wasteQuantity: "Quantité (kg)",
+                contact: "Vos coordonnées",
+                sellBtn: "Vendre les déchets"
+            }
+        };
+
+        document.getElementById("languageSelector").addEventListener("change", function() {
+            let lang = this.value;
+            document.getElementById("sellTitle").innerText = translations[lang].sellTitle;
+            document.getElementById("wasteName").placeholder = translations[lang].wasteName;
+            document.getElementById("wasteQuantity").placeholder = translations[lang].wasteQuantity;
+            document.getElementById("contact").placeholder = translations[lang].contact;
+            document.getElementById("sellBtn").innerText = translations[lang].sellBtn;
+        });
+    </script>
+    
+    <div class="back-container">
+        <a href="index.html" class="back-btn">⬅ Go Back</a>
+    </div>
+</body>
+</html>

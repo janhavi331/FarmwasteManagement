@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Farmer Login</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #0d1b0d;
+            color: white;
+            text-align: center;
+        }
+        .container {
+            max-width: 400px;
+            margin: 100px auto;
+            padding: 20px;
+            background: #006400;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 255, 100, 0.4);
+        }
+        input, button {
+            width: 90%;
+            padding: 10px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 5px;
+        }
+        button {
+            background: #FFD700;
+            color: black;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Farmer Login</h2>
+        <input type="text" id="username" placeholder="Enter Username">
+        <input type="password" id="password" placeholder="Enter Password">
+        <button onclick="login()">Login</button>
+        <p>New Farmer? <a href="#" onclick="register()">Register</a></p>
+    </div>
+
+    <script>
+        function login() {
+            let username = document.getElementById("username").value;
+            let password = document.getElementById("password").value;
+            
+            let storedUser = localStorage.getItem("farmerUser");
+            let storedPass = localStorage.getItem("farmerPass");
+
+            if (username === storedUser && password === storedPass) {
+                localStorage.setItem("loggedIn", "true");
+                alert("Login Successful! Redirecting...");
+                window.location.href = "index.html"; // Redirect to main site
+            } else {
+                alert("Invalid credentials!");
+            }
+        }
+
+        function register() {
+            let username = prompt("Create a Username:");
+            let password = prompt("Create a Password:");
+
+            if (username && password) {
+                localStorage.setItem("farmerUser", username);
+                localStorage.setItem("farmerPass", password);
+                alert("Registration Successful! Now Login.");
+            } else {
+                alert("Registration Failed! Try Again.");
+            }
+        }
+    </script>
+</body>
+</html>
